@@ -1,0 +1,156 @@
+Configuring Git
+
+1.git config --global user.name "My name"
+2.git config --global user.email "someone@email.com"
+3.git config --list
+
+Clone and status
+
+4.git clone <url>  : to copy a rep locally 
+
+status - displays the status of the code
+5.git status
+
+#HTTPS is one of the easiest way to clone the repo in our local repository
+
+.git : github file
+
+# Whenver we make some changes, we have to add that change and then stage it. We do this by : 
+   6):->	1) git add <modified file>
+	     2) git commit -m "message"
+	     3) git status
+Type of status on Git : 1) untracked : new files that git diesn't yet track
+			        2) modified : changed 
+			        3) staged :   file is ready to be committed/ after adding the file , it gets staged
+			        4) unmodified : unchanged
+			        
+Add & Commit
+add - add new or changed filed in the working directory to the Git staging area
+      git add <-file name->
+      git add . -> for multiple files to be added
+commit - it is the record of change 
+	git commit -m " message for commit "
+	
+	
+Push command :  to push the changes from local repo to the remote repo
+		  git push origin main   ,  origin is the name of the github repo / remote repo. So on this origin repo, there is a branch called main where we are trying to push the stuffs.
+		  
+	
+Init Command : 
+	Used to create a new git repo. When we are starting to work on a project locally, not by cloning, then we have to initialize the git repo for our project at the local environment.
+	(Basically , for a new project, to initalize git for that!)
+	
+	git init
+	
+	git remote add origin <-link->  : adding a new remote repo whoose name is origin followed by origin's link
+	
+	git remote -v  : to verify remote, the remote repository which we have set in the above step
+	
+	git branch
+	git brnach -M main
+	git push origin main
+	
+	Branching operation
+	1) Branch check : git branch
+	2) branch rename : git branch -M main (to rename branch)
+	3) create a new branch : git branch <-branch name->
+
+
+
+Workflow : 
+local repo :       github repo 
+                        | 
+               clone to local system
+                        |
+                     changes
+                        |
+                       add
+                        |
+                      commit
+                        |
+                       push
+                      
+                      
+Git Branches : Branch commands
+        git branch   (to check the branch)
+        
+        git branch -M main (to rename the branch)
+        
+        git checkout <- branch name->  (to navigate to other branch)
+        
+        git checkout -b <-branch name -> ( to create new branch )
+        
+        git branch -d <- branch name -> ( to delete branch )
+          
+          
+Merging Code 
+
+Way 1: 
+  git diff <- branch name ->  (to compare commits, branches , files and more )
+  
+  git merge <- branch name -> (to merge 2 branches)
+  
+ 
+Way 2 : Pull Request 
+  It lets you tell others about changes you've pushed to a branch in a repo on Github : basically , we as a dev requesting Github to merge the development work done in the feature branch  to the main branch 
+  workflow of PR : 
+        feature branch work 
+              |
+    pull request on main branch
+              |
+  PR review ( senior dev/ staff working on main branch )
+  		   |
+       merged , if PASS in review
+  
+Pull command : 
+	git pull origin main 
+	
+	used to fetch and download content from a remote repo and immmidiately update the local repo to match the content.
+	
+
+Reserving Merge Conflicts
+
+An event that takes place when git is unable to automatically resolve differences in code between two commits.[ Basically when changes are done in the same place for a same file in both the branches which we are trying to merge, 
+then the merge conflict will arise as git will be confused which commit it should consider first because both the commit has occured at the same place.
+
+To resolve merge conflict : Either 
+  				     a) Accept incoming changes (from main/feature branch)
+  				     b) Accept current changes (abhi jis branch me hokar ye sab observe kar rahe)
+  				     c) Accept both the changes. 
+  				     After accpting the options from the above three, do git add . , git commit -m "message", git push origin branch name , git merge branch
+  				     
+  		
+Undoing changes : 
+
+case 1: staged changes (those changes which have been add, but not commited)
+       git reset <-file name->
+       
+       git reset
+case 2: commited changes (for one commit)
+       git reset HEAD~1
+       So , in git, all the commits are stored/screenshot ..The latest commit is called as HEAD. So by git reset HEAD~1 , it means that reset the latest commit (for the last commit, go one step back)
+       
+case 3: committed changes (for many commits)
+     hash : commit id 
+      so to undo multiple commit, let's say we want to undo the last 3 commits, so we will copy the commit id of last 4th commit id, then do git reset hashid
+      
+      git reset --hard <commit hash-> , going back to the desired commit changes.
+      
+      The above commands are for undoing changes inside git.
+      
+ Fork : 
+ 	A fork is a new repository that shares code and visibility settings with the original "upstream" repository. Fork is a rough copy.
+        
+
+
+ Git error : 
+ 	1) "  	! [rejected]        main -> main (fetch first)
+			error: failed to push some refs to 'https://github.com/Ashutosh-Tiwari-23/localrepo.git'
+			hint: Updates were rejected because the remote contains work that you do not
+			hint: have locally. This is usually caused by another repository pushing to
+			hint: the same ref. If you want to integrate the remote changes, use
+			hint: 'git pull' before pushing again.
+			hint: See the 'Note about fast-forwards' in 'git push --help' for details. "
+			
+	Meaning of this error : so it means that there were  two commits which are not aware of each other , may be locally and one on remote repo. 
+	Solution : git pull --rebase origin main , this will rebase the commit one after the another and then the push operation will be successfull. 
